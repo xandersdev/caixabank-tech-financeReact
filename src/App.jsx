@@ -1,6 +1,6 @@
 import { Route, Routes } from "react-router"
-import HomePage from "./pages/HomePage"
 import AppNavbar from "./components/AppNavbar"
+import HomePage from "./pages/HomePage"
 
 export default function App() {
     return (

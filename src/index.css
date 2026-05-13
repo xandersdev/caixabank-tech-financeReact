@@ -2,6 +2,10 @@
 @import "flowbite-react/plugin/tailwindcss";
 @source "../.flowbite-react/class-list.json";
 
+html {
+    scroll-behavior: smooth;
+}
+
 body {
     margin: 0;
     min-width: 320px;
