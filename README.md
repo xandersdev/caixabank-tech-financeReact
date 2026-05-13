@@ -1,6 +1,6 @@
 # CaixaBank Tech Finance React
 
-Aplicación frontend desarrollada con *React*, *TailwindCSS* y *Flowbite React* que consume datos reales de la API *Financial Modeling Prep* para mostrar información financiera de acciones.
+Aplicación frontend desarrollada con **React**, **TailwindCSS** y **Flowbite React** que consume datos reales de la API *Financial Modeling Prep* para mostrar información financiera de acciones.
 
 El proyecto forma parte del trabajo final de la microcredencial de desarrollo frontend y está construido por fases, siguiendo los requisitos del enunciado: listado inicial de datos, páginas de detalle, búsqueda, gestión de estado con Nanostore y despliegue en Netlify.
 
@@ -52,6 +52,29 @@ La aplicación incluye una página principal con acciones destacadas, una barra 
 - Git y GitHub
 
 ---
+
+## Configuración de variables de entorno
+
+Este proyecto utiliza la API de Financial Modeling Prep, por lo que es necesario configurar una API key para que la aplicación pueda obtener los datos financieros.
+
+Por seguridad, el archivo .env no está incluido en el repositorio ni en el ZIP de entrega. Cada persona que ejecute el proyecto debe crear su propio archivo .env en la raíz del proyecto.
+
+- **Paso 1:** crear el archivo .env
+
+En la raíz del proyecto, crea un archivo llamado:
+```txt
+.env
+```
+- **Paso 2:** añadir la API key
+
+Dentro del archivo .env, añade la siguiente variable:
+```txt
+VITE_FMP_API_KEY=tu_api_key_de_financial_modeling_prep
+```
+Ejemplo: 
+```txt
+VITE_FMP_API_KEY=abc123456789
+```
 
 ## Estructura del proyecto
 
