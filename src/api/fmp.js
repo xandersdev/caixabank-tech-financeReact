@@ -12,14 +12,28 @@ async function request(endpoint) {
     const response = await fetch(url)
 
     if (!response.ok) {
-        throw new Error(`La petición a la API ha fallado con estado ${response.status}`)
+    if (response.status === 429) {
+        throw new Error("Se ha alcanzado el límite diario de llamadas de la API.")
     }
+
+    if (response.status === 401 || response.status === 403) {
+        throw new Error("No se ha podido acceder a la API.")
+    }
+
+    throw new Error(`La petición a la API ha fallado con estado ${response.status}`)
+}
 
     const data = await response.json()
 
     if (data?.Error || data?.error) {
-        throw new Error(data.Error || data.error)
+    const apiError = data.Error || data.error
+
+    if (apiError.toLowerCase().includes("limit")) {
+        throw new Error("Se ha alcanzado el límite diario de llamadas de la API.")
     }
+
+    throw new Error(apiError)
+}
 
     return data
 }
