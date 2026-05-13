@@ -25,7 +25,6 @@ export async function searchStocksByQuery(query) {
         const data = await searchStocks(cleanQuery)
 
         if (!Array.isArray(data)) {
-            console.error("Respuesta inesperada de la API:", data)
             throw new Error("La API no ha devuelto una lista de resultados.")
         }
 
@@ -45,7 +44,8 @@ export async function searchStocksByQuery(query) {
         console.error(error)
         $searchResults.set([])
         $searchError.set(
-            error.message || "No se pudieron cargar los resultados de búsqueda. Inténtalo de nuevo más tarde."
+            error.message ||
+                "No se pudieron cargar los resultados de búsqueda. Inténtalo de nuevo más tarde."
         )
     } finally {
         $searchLoading.set(false)
@@ -65,7 +65,11 @@ export function addRecentStock(stock) {
 
     const newStock = {
         symbol: stock.symbol,
-        companyName: stock.companyName || stock.name || stock.symbol,
+        companyName:
+            stock.companyName ||
+            stock.name ||
+            stock.company ||
+            stock.symbol,
     }
 
     $recentStocks.set([newStock, ...filteredStocks].slice(0, 5))

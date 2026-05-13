@@ -4,6 +4,7 @@ import { Badge, Button, Card } from "flowbite-react"
 import { getCompanyProfile, getStockQuote } from "../api/fmp"
 import ErrorState from "../components/ErrorState"
 import LoadingState from "../components/LoadingState"
+import { addRecentStock } from "../stores/stocksStore"
 
 function formatCurrency(value) {
     if (!value) {
@@ -47,12 +48,23 @@ export default function StockDetailsPage() {
                     getStockQuote(symbol),
                 ])
 
-                setProfile(profileData?.[0] || null)
-                setQuote(quoteData?.[0] || null)
+                const profileResult = profileData?.[0] || null
+                const quoteResult = quoteData?.[0] || null
+
+                setProfile(profileResult)
+                setQuote(quoteResult)
+
+                addRecentStock({
+                    symbol,
+                    companyName:
+                        profileResult?.companyName ||
+                        quoteResult?.name ||
+                        symbol,
+                })
             } catch (error) {
                 console.error(error)
                 setError(
-                    "No se han podido cargar los detalles de la acción. Inténtalo de nuevo más tarde."
+                    "No se pudieron cargar los detalles de la acción. Inténtalo de nuevo más tarde."
                 )
             } finally {
                 setLoading(false)
@@ -63,15 +75,11 @@ export default function StockDetailsPage() {
     }, [symbol])
 
     if (loading) {
-        return (
-            <LoadingState text={`Cargando detalles de ${symbol}...`} />
-        )
+        return <LoadingState text={`Cargando detalles de ${symbol}...`} />
     }
 
     if (error) {
-        return (
-            <ErrorState message={error} />
-        )
+        return <ErrorState message={error} />
     }
 
     if (!profile && !quote) {
@@ -80,14 +88,16 @@ export default function StockDetailsPage() {
                 <BackLink />
 
                 <div className="rounded-3xl border border-slate-800 bg-slate-900 p-8 text-slate-300">
-                    No se han encontrado detalles para esta acción.
+                    No se encontraron detalles para esta acción.
                 </div>
             </section>
         )
     }
 
     const companyName = profile?.companyName || quote?.name || symbol
-    const description = profile?.description || "No hay descripción disponible para esta empresa."
+    const description =
+        profile?.description ||
+        "No hay descripción disponible para esta empresa."
 
     return (
         <section className="space-y-6">
@@ -114,7 +124,9 @@ export default function StockDetailsPage() {
                             </h1>
 
                             <p className="mt-3 text-slate-400">
-                                {profile?.industry || profile?.sector || "Empresa cotizada"}
+                                {profile?.industry ||
+                                    profile?.sector ||
+                                    "Empresa cotizada"}
                             </p>
                         </div>
                     </div>
@@ -127,7 +139,12 @@ export default function StockDetailsPage() {
                         <InfoBox label="Sector" value={profile?.sector} />
                         <InfoBox label="Industria" value={profile?.industry} />
                         <InfoBox label="País" value={profile?.country} />
-                        <InfoBox label="Bolsa" value={profile?.exchangeShortName || quote?.exchange} />
+                        <InfoBox
+                            label="Bolsa"
+                            value={
+                                profile?.exchangeShortName || quote?.exchange
+                            }
+                        />
                     </div>
 
                     {profile?.website && (
@@ -150,12 +167,34 @@ export default function StockDetailsPage() {
                     </h2>
 
                     <div className="mt-6 space-y-4">
-                        <InfoRow label="Precio actual" value={formatCurrency(quote?.price)} />
-                        <InfoRow label="Cambio" value={quote?.change ?? "No disponible"} />
-                        <InfoRow label="Variación" value={quote?.changesPercentage ?? "No disponible"} />
-                        <InfoRow label="Capitalización" value={formatLargeNumber(profile?.mktCap || quote?.marketCap)} />
-                        <InfoRow label="Volumen" value={formatLargeNumber(quote?.volume)} />
-                        <InfoRow label="CEO" value={profile?.ceo || "No disponible"} />
+                        <InfoRow
+                            label="Precio actual"
+                            value={formatCurrency(quote?.price)}
+                        />
+                        <InfoRow
+                            label="Cambio"
+                            value={quote?.change ?? "No disponible"}
+                        />
+                        <InfoRow
+                            label="Variación"
+                            value={
+                                quote?.changesPercentage ?? "No disponible"
+                            }
+                        />
+                        <InfoRow
+                            label="Capitalización"
+                            value={formatLargeNumber(
+                                profile?.mktCap || quote?.marketCap
+                            )}
+                        />
+                        <InfoRow
+                            label="Volumen"
+                            value={formatLargeNumber(quote?.volume)}
+                        />
+                        <InfoRow
+                            label="CEO"
+                            value={profile?.ceo || "No disponible"}
+                        />
                     </div>
                 </Card>
             </div>
@@ -191,9 +230,7 @@ function InfoBox({ label, value }) {
 function InfoRow({ label, value }) {
     return (
         <div className="flex items-center justify-between gap-4 border-b border-slate-800 pb-4 text-sm">
-            <span className="text-slate-400">
-                {label}
-            </span>
+            <span className="text-slate-400">{label}</span>
 
             <span className="text-right font-semibold text-white">
                 {value || "No disponible"}
