@@ -70,7 +70,9 @@ npm 10.4.0
 
 ## Configuración de variables de entorno
 
-Este proyecto utiliza la API de Financial Modeling Prep, por lo que es necesario configurar una API key para que la aplicación pueda obtener los datos financieros.
+Este proyecto utiliza la API de Financial Modeling Prep, por lo que es necesario configurar una API key para que la aplicación pueda obtener los datos financieros. Para obtener una API key, es necesario crear una cuenta gratuita en:
+
+**https://financialmodelingprep.com/**
 
 Por seguridad, el archivo .env no está incluido en el repositorio ni en el ZIP de entrega. Cada persona que ejecute el proyecto debe crear su propio archivo .env en la raíz del proyecto.
 
