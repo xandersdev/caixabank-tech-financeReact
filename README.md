@@ -9,7 +9,10 @@ El proyecto forma parte del trabajo final de la microcredencial de desarrollo fr
 ## Demo
 
 **Aplicación desplegada en Netlify:**  
-https://brilliant-daifuku-7e8348.netlify.app/
+https://financialmodelapitest.netlify.app/
+
+**Repositorio:**  
+https://github.com/xandersdev/caixabank-tech-financeReact
 
 ---
 
@@ -53,6 +56,18 @@ La aplicación incluye una página principal con acciones destacadas, una barra 
 
 ---
 
+## Requisitos
+
+Este proyecto necesita **Node.js 20.19 o superior**.
+
+**Durante el desarrollo se ha usado:**
+
+```txt
+Node.js 24.15.0
+npm 10.4.0
+```
+---
+
 ## Configuración de variables de entorno
 
 Este proyecto utiliza la API de Financial Modeling Prep, por lo que es necesario configurar una API key para que la aplicación pueda obtener los datos financieros.
@@ -75,25 +90,47 @@ Ejemplo:
 ```txt
 VITE_FMP_API_KEY=abc123456789
 ```
+## Instalación y ejecución
+
+- Clonar el repositorio:
+```txt
+git clone https://github.com/xandersdev/caixabank-tech-financeReact.git
+```
+- Entrar en el proyecto:
+```txt
+cd caixabank-tech-financeReact
+```
+- Instalar dependencias:
+```txt
+npm install
+```
+- Ejecutar en desarrollo:
+```txt
+npm run dev
+```
+- Generar build de producción:
+```txt
+npm run build
+```
 
 ## Estructura del proyecto
 
 ```txt
 src/
-├── api/
+├── api/                    # Conexión con Financial Modeling Prep
 │   └── fmp.js
-├── components/
+├── components/             # Componentes reutilizables
 │   ├── AppNavbar.jsx
 │   ├── ErrorState.jsx
 │   ├── LoadingState.jsx
 │   ├── SearchBar.jsx
 │   └── StockCard.jsx
-├── pages/
+├── pages/                  # Páginas principales de la aplicación
 │   ├── HomePage.jsx
 │   ├── SearchResultsPage.jsx
 │   └── StockDetailsPage.jsx
-├── stores/
+├── stores/                  # Estado global con Nanostore
 │   └── stocksStore.js
-├── App.jsx
-├── index.css
-└── main.jsx
+├── App.jsx                  # Rutas principales
+├── index.css                # Punto de entrada de React
+└── main.jsx                 # Estilos globales
